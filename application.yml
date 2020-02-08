@@ -2,7 +2,7 @@ spring:
   boot:
     admin:
       client:
-        url: "http://localhost:9097" 
+        url: "http://localhost:9098" 
   cloud:
     config:
       discovery:
