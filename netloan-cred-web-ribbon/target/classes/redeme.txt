@@ -1,0 +1,27 @@
+1. 此模块采用RestTemplte  +  Ribbon 实现服务
+2. 默认基本配置
+在使用 Ribbon 时，只需要配置 Hystrix 的超时时间就可以生效，不需要额外配置 Ribbon的超时时间，比如：
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 9000
+3. 不同实例分别配置
+ 3.1  如果想统一设置同一个服务实例中各方法的超时时间经测试,可以把不同方法上的@commandKey设置成相同的值,这样在 yml 中对该 key 做超时配置就能同时生效了
+      @HystrixCommand(commandKey = "helloService",fallbackMethod = "sayHelloDefault")
+      public String say()
+      
+	  hystrix:
+        command:
+          helloService:
+            execution:
+              isolation:
+                thread:
+                  timeoutInMilliseconds: 5000
+        default:
+          execution:
+            isolation:
+              thread:
+                timeoutInMilliseconds: 1000
