@@ -1,0 +1,19 @@
+###http://127.0.0.1:8888/netloan-cred-dev/master
+spring:
+  application:
+    name: netloan-config
+  cloud:
+    config:
+      label: master ###配置仓库的分支
+      server:        
+        git:
+          uri: https://github.com/lixiaohuiqazwsx/spring-config ###配置git仓库的地址
+          search-paths: spring-config  ####配置仓库目录,存放文件的地方
+          username: lixiaohuiqazwsx
+          password: lixiaohui@123
+server:
+  port: 8880
+eureka:
+  client:
+    service-url: 
+       defaultZone : http://127.0.0.1:8761/eureka,http://127.0.0.1:8762/eureka
