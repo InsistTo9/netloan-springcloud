@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: netloan-config
+      name: netloan-cred,netloan-eureka-client ##可以实现公共配置单独部署
+      label: master
+      profile: prod  ##实现多环境配置
