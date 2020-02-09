@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: netloan-zuul
+  boot:
+    admin:
+      client:
+        url: "http://localhost:9097" 
+server:
+  port: 9094 
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+  MaxAutoRetries: 1 #同一台实例最大重试次数,不包括首次调用
+  MaxAutoRetriesNextServer: 1 #重试负载均衡其他的实例最大重试次数,不包括首次调用
+  OkToRetryOnAllOperations: false  #是否所有操作都重试当ribbon超时后且hystrix没有超时 
+hystrix:
+  command:
+    default:
+      timeout:
+          enabled: true
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+#用 serviceId 进行路由时，使用 ribbon.ReadTimeout 和 ribbon.SocketTimeout 设置
+#用指定 url 进行路由时，使用 zuul.host.connect-timeout-millis 和 zuul.host.socket-timeout-millis 设置 
+#zull实现重试要引入spring-retry依赖
+#并且开启重试功能
+zuul:
+  retryable: true
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+  routes:
+    netloan-cred:
+      path: /cred/**
+      service-id: netloan-cred
+      strip-prefix: false
+      sensitive-headers: 
+    netloan-cred-web-fegin: 
+      path: /feign/**
+      service-id: netloan-cred-web-feign
+      strip-prefix: false
+      sensitive-headers:
+eureka:
+  client:
+    service-url: 
+       defaultZone : http://127.0.0.1:8761/eureka,http://127.0.0.1:8762/eureka
+management:
+  endpoints: 
+    web:
+      exposure:
+        include: "*"      
+    
+
+    
