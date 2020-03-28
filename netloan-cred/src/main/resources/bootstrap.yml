@@ -15,6 +15,11 @@ eureka:
   client:
     service-url: 
        defaultZone : http://127.0.0.1:8761/eureka,http://127.0.0.1:8762/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:{server.port}
+    lease-renewal-interval-in-seconds: 3     ##发送心跳的间隔
+    lease-expiration-duration-in-seconds: 7  ##续约到期的时间
 management:
   endpoints: 
     web:
